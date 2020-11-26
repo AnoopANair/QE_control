@@ -1,6 +1,0 @@
-Just jot down ideas for a project and work on it
-
-Format : 
-[DATE] : 
- - [Ideas]
- - [Concerns]
