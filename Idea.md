@@ -8,3 +8,7 @@ Format :
 **Nov 26 2020** 
 - Creating a GPU compilation code in python to compile the QE-GPU on Google Colab Environment. 
 - Tesla K80 has double-precision capability supported by QE-GPU
+
+**Nov 28 2020**
+ - create a cif to input file converter
+ 
