@@ -78,3 +78,6 @@ _atom_site_fract_z
 _atom_site_occupancy
 _atom_site_U_iso_or_equiv
 Sc1 Sc 0.3333 0.6667 0.25 1 0.0
+Sc1 Sc 0.3333 0.6667 0.25 1 0.0
+Sc1 Sc 0.3333 0.6667 0.25 1 0.0
+Sc1 Sc 0.3333 0.6667 0.25 1 0.0
