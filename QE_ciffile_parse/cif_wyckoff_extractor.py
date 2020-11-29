@@ -1,13 +1,19 @@
 import re
 import numpy as np
 
-
-set_of_words = np.array([])
-with open("Test.cif") as origin_file:
-    for line in origin_file:
-        set_of_words = np.append(set_of_words,line)
-set_of_words = set_of_words[::-1]
-
+"""
+Pseudo code:
+1. Taking the array of lines
+2. Invert it
+3. Match the first occurence of loop_
+4. slice till the index
+5. new list  == sliced list inverted
+6. find index of keywords within sliced list
+7. find max index
+8. remove the '\ n' and ' ' charachter lines
+9. rematch the indices of the key_words
+10. match the coloumn to the index of the last value arrays
+"""
 def find_index(search_word,set_of_words):
     count = 0
     for i in set_of_words:
@@ -16,28 +22,57 @@ def find_index(search_word,set_of_words):
             return count
         count += 1
 
-index = find_index("loop_",set_of_words)
+# step 1
+file_lines = np.array([])
+with open("Test.cif") as origin_file:
+    for line in origin_file:
+        file_lines = np.append(file_lines,line)
 
-words = ["_atom_site_label","_atom_site_type_symbol","_atom_site_fract_x","_atom_site_fract_y","_atom_site_fract_z","_atom_site_occupancy","_atom_site_U_iso_or_equiv"]
+# step 2
+file_lines = file_lines[::-1]
 
+# step 3
+loop_index = find_index("loop_",file_lines)
+key_words = ["_atom_site_label","_atom_site_type_symbol","_atom_site_fract_x","_atom_site_fract_y","_atom_site_fract_z","_atom_site_occupancy","_atom_site_U_iso_or_equiv"]
 
-terms = set_of_words[:index].copy()
-terms = terms[::-1]
-wyckoff_dict = {}
+# step 4
+inital_term_space = file_lines[:loop_index].copy()
 
-for term in words:
-    index_number = find_index(term,terms)
-    wyckoff_dict[index_number] = term
+# step 5
+inital_term_space = inital_term_space[::-1]
 
+temp_dict = {} # define the dictionary
 
-max_key = len(wyckoff_dict)
-new_set_of_words = terms[max_key:index].copy()
+# step 6
+for iter_term in key_words:
+    index_number = find_index(iter_term,inital_term_space)
+    temp_dict[index_number] = iter_term
 
-temp_array = np.zeros((1,max_key))
+# step 7
+max_index_number = len(temp_dict)
 
-for value in new_set_of_words:
-    temp_val = value.split("{}".format(' ')) # change this to regex
-    if len(temp_val) == max_key:
+# step 8
+for iter_term in range(0,len(inital_term_space[:max_index_number])):
+    inital_term_space[iter_term] = inital_term_space[iter_term].replace(" ",'')
+
+final_term_space = [k for k in inital_term_space if k != '\n']
+
+# step 9
+temp_dict_one = {}
+
+for iter_term in key_words:
+    index_number = find_index(iter_term,final_term_space)
+    temp_dict_one[index_number] = iter_term
+
+# step 10
+value_lines = inital_term_space[max_index_number:loop_index].copy()
+
+# defining dummy array for vstack
+temp_array = np.zeros((1,max_index_number)) 
+
+for iter_term in value_lines:
+    temp_val = iter_term.split("{}".format(' ')) # change this to regex
+    if len(temp_val) == max_index_number:
         
         temp_array = np.vstack((temp_array,temp_val))
 
@@ -49,11 +84,8 @@ temp_array[:,-1]
 for k in range(0,len(temp_array[:,-1])):
     temp_array[k,-1] = temp_array[k,-1].replace('\n','')
 
+final_dict = {}
+for iter_term in range(0,len(temp_dict_one)):
+    final_dict[temp_dict_one[iter_term]] = temp_array[:,iter_term]
 
-
-final_wycoff_dict = {}
-for j in range(0,max_key):
-    final_wycoff_dict[wyckoff_dict[j]] = temp_array[:,j]
-
-
-print(final_wycoff_dict["_atom_site_occupancy"])
+print(final_dict)
