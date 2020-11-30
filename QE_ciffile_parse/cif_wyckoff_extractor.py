@@ -30,7 +30,7 @@ with open("Test.cif") as origin_file:
 
 
 # step 3
-key_words = ["_atom_site_label","_atom_site_type_symbol","_atom_site_fract_x","_atom_site_fract_y","_atom_site_fract_z","_atom_site_occupancy","_atom_site_U_iso_or_equiv"]
+key_words = ["_atom_site_label","_atom_site_adp_type","_atom_site_type_symbol","_atom_site_fract_x","_atom_site_fract_y","_atom_site_fract_z","_atom_site_occupancy","_atom_site_U_iso_or_equiv"]
 
 # step 4
 inital_term_space = file_lines.copy()
