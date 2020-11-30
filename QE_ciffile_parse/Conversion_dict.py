@@ -1,4 +1,12 @@
+"""
+This file contains the conversion dicts :
 
+1. Hermann–Mauguin notation to Hall Notation
+2. Number to Hall Notation
+3. Hall to the symmetry operations
+
+
+"""
 HM2HALL = {
 'p1':'p1',
 'p-1':'-p1',
