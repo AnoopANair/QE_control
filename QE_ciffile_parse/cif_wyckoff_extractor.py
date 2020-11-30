@@ -28,44 +28,44 @@ with open("Test.cif") as origin_file:
     for line in origin_file:
         file_lines = np.append(file_lines,line)
 
-# step 2
-file_lines = file_lines[::-1]
 
 # step 3
-loop_index = find_index("loop_",file_lines)
 key_words = ["_atom_site_label","_atom_site_type_symbol","_atom_site_fract_x","_atom_site_fract_y","_atom_site_fract_z","_atom_site_occupancy","_atom_site_U_iso_or_equiv"]
 
 # step 4
-inital_term_space = file_lines[:loop_index].copy()
+inital_term_space = file_lines.copy()
 
-# step 5
-inital_term_space = inital_term_space[::-1]
+
 
 temp_dict = {} # define the dictionary
 
 # step 6
 for iter_term in key_words:
     index_number = find_index(iter_term,inital_term_space)
-    temp_dict[index_number] = iter_term
+    if index_number != None :
+        temp_dict[index_number] = iter_term
 
-# step 7
-max_index_number = len(temp_dict)
+min_key  = int(min(temp_dict.keys()))
+max_key  = int(max(temp_dict.keys()))
 
-# step 8
-for iter_term in range(0,len(inital_term_space[:max_index_number])):
+
+# # step 8
+for iter_term in range(0,len(inital_term_space[:max_key+1])):
     inital_term_space[iter_term] = inital_term_space[iter_term].replace(" ",'')
 
-final_term_space = [k for k in inital_term_space if k != '\n']
-
+final_term_space = [k for k in inital_term_space[min_key:max_key+1] if k != '\n']
+print(final_term_space)
 # step 9
 temp_dict_one = {}
 
 for iter_term in key_words:
     index_number = find_index(iter_term,final_term_space)
-    temp_dict_one[index_number] = iter_term
+    if index_number != None:
+        temp_dict_one[index_number] = iter_term
 
 # step 10
-value_lines = inital_term_space[max_index_number:loop_index].copy()
+max_index_number = len(temp_dict_one)
+value_lines = inital_term_space[max_key+1:].copy()
 
 # defining dummy array for vstack
 temp_array = np.zeros((1,max_index_number)) 
@@ -73,8 +73,9 @@ temp_array = np.zeros((1,max_index_number))
 for iter_term in value_lines:
     temp_val = iter_term.split("{}".format(' ')) # change this to regex
     if len(temp_val) == max_index_number:
-        
         temp_array = np.vstack((temp_array,temp_val))
+    else :
+        break
 
 
 temp_array = temp_array[1:]
@@ -84,8 +85,10 @@ temp_array[:,-1]
 for k in range(0,len(temp_array[:,-1])):
     temp_array[k,-1] = temp_array[k,-1].replace('\n','')
 
+print(temp_dict_one)
 final_dict = {}
 for iter_term in range(0,len(temp_dict_one)):
+    print(iter_term)
     final_dict[temp_dict_one[iter_term]] = temp_array[:,iter_term]
 
 print(final_dict)
