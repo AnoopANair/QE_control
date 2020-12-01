@@ -15,3 +15,4 @@ Note on google colab:
 
 The cuda toolkit is already installed in google colab
 It can be accessed via !nvidia-smi
+I dont know if PCI compilers are installed in google colab. Need to check that.
