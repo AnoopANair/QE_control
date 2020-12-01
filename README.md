@@ -4,7 +4,7 @@ Repo for python code used to control Quantum ESPRESSO
 
 Use VS CODe or gitpod to push code
 when contributing follow the steps:
-
+I trying to do it atleast
 - Step 1. get Gitpod to make edits easy
     - Procedure  :
     - a. Getting started
