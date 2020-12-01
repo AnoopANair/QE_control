@@ -10,3 +10,8 @@ Note on google colab:
   - os.system("%cd q-e") #enter the q-e folder
   - os.system("DFLAGS = ‘-D__OPENMP -D__FFTW3 -D__MPI -D__SCALAPACK’ FFT_LIBS = ‘-lfftw3’ ./configure --enable-openmp") #run the configure file
   - os.system("make pw") #make the pw file
+
+### gpu version info
+
+The cuda toolkit is already installed in google colab
+It can be accessed via !nvidia-smi
